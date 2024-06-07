@@ -1,0 +1,19 @@
+name: NateOS CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Grant execute permission for build script
+        run: chmod +x build.sh
+
+      - name: Build NateOS
+        run: |
+          sudo su
+          ./build.sh
+
+      - run: echo "Build status report=${{ job.status }}."
