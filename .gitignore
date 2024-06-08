@@ -1,0 +1,17 @@
+amp/
+boot-files/
+busybox/
+eza/
+gcc-4.6.1-2/
+linux/
+minos-static/
+opt-php-7.1.2-1/
+opt-nodejs-0.8.18-1/
+python3.2-static-raw.githubusercontent.com/
+
+opt-nodejs-0.8.18-1.tar.xz
+python3.2-static-raw.githubusercontent.com.tar.xz
+gcc-4.6.1-2.tar.xz
+opt-php-7.1.2-1.tar.xz
+
+nate_os.img
