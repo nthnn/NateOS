@@ -70,11 +70,6 @@ cp -r opt-nodejs-0.8.18-1/* boot-files/initramfs/
 chmod +x boot-files/initramfs/opt/nodejs/bin/*
 
 ./minos-static/static-get -c
-./minos-static/static-get -v -x opt-php-7.1.2-1
-cp -r opt-php-7.1.2-1/* boot-files/initramfs/
-chmod +x boot-files/initramfs/opt/php-7.1/bin/*
-
-./minos-static/static-get -c
 ./minos-static/static-get -v -x vim
 rm vim/bin/vi
 chmod +x vim/bin/*
@@ -101,7 +96,7 @@ mkdir -p /var/run /var/log /var/tmp
 mkdir -p /etc/network /etc/ssh
 
 ln -sf /usr/share/zoneinfo/Asia/Manila /etc/localtime
-export PATH=$PATH:/usr/libexec/gcc/i586-linux-uclibc/4.6.1:/opt/nodejs/bin:/opt/php-7.1/bin
+export PATH=$PATH:/usr/libexec/gcc/i586-linux-uclibc/4.6.1
 alias tree='sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'
 
 echo "auto eth0" >> /etc/network/interfaces
@@ -130,7 +125,7 @@ rm linuxrc
 find . | cpio -o -H newc > ../init.cpio
 cd ..
 
-truncate -s 512M nate_os.img
+truncate -s 256M nate_os.img
 mkfs -t fat nate_os.img
 syslinux nate_os.img
 
