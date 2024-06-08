@@ -128,7 +128,7 @@ rm linuxrc
 find . | cpio -o -H newc > ../init.cpio
 cd ..
 
-truncate -s 512M nate_os.img
+truncate -s 1G nate_os.img
 mkfs -t fat nate_os.img
 syslinux nate_os.img
 
