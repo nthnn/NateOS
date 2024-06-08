@@ -107,6 +107,7 @@ mkdir -p /etc/network /etc/ssh
 
 ln -sf /usr/share/zoneinfo/Asia/Manila /etc/localtime
 export PATH=$PATH:/usr/libexec/gcc/i586-linux-uclibc/4.6.1:/opt/nodejs/bin:/opt/php-7.1/bin
+alias tree='sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'
 
 echo "auto eth0" >> /etc/network/interfaces
 echo "iface eth0 inet dhcp" >> /etc/network/interfaces
