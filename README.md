@@ -1,5 +1,18 @@
 # NateOS
 
+## What's in the box?
+
+The NateOS distro includes the following programs and packages:
+
+- [amp](https://github.com/jmacdonald/amp) - A complete text editor for your terminal.
+- [BusyBox](https://www.busybox.net/about.html) - BusyBox combines tiny versions of many common UNIX utilities into a single small executable.
+- [eza](https://github.com/eza-community/eza) - A modern, maintained replacement for the venerable file-listing command-line program ls that ships with Unix and Linux operating systems.
+- [GCC 4.6.1-2](https://gcc.gnu.org/) - Toolchain that compiles code, links it with any library dependencies, converts that code to assembly, and then prepares executable files.
+- [NodeJS 0.8.18-1](https://nodejs.org/en) - A cross-platform, open-source JavaScript runtime environment that can run on Windows, Linux, Unix, macOS, and more.
+- [pfetch](https://github.com/dylanaraps/pfetch) - A pretty system information tool written in POSIX sh.
+- [Python3.2](https://www.python.org/) - Python is a high-level, dynamic, general-purpose programming language.
+- [Vim](https://www.vim.org/) - Vim is a free and open-source, screen-based text editor program.
+
 ## Getting Started
 
 To get started in Ubuntu, follow the steps below.
