@@ -31,20 +31,41 @@ make -j 4
 mkdir -p ../boot-files/initramfs
 make CONFIG_PREFIX=../boot-files/initramfs install
 
-cd ../boot-files/initramfs/
-echo -e '#!/bin/sh\n\n/bin/sh .bash_profile\n/bin/sh +m' > init
-chmod +x init
+cd ../boot-files/initramfs
+mkdir -p etc dev man proc sys tmp
 
-cat <<EOF > .bash_profile
+cat <<EOF > etc/init.d/rcS
+#!/bin/sh
+echo "root:x:0:0:root:/root:/bin/sh" > etc/passwd
+echo "root:x:0:" > etc/group
+echo "root::10933:0:99999:7:::" > etc/shadow
+echo "root:root" | chpasswd
+
+mount -t proc none /proc
+mount -t tmpfs none /tmp
+
+mkdir -p /var/run /var/log /var/tmp
+mkdir -p etc/init.d etc/network etc/ssh
+
+ln -sf /usr/share/zoneinfo/Asia/Manila /etc/localtime
+
+echo "nateos" > /etc/hostname
+echo "auto eth0" >> /etc/network/interfaces
+echo "iface eth0 inet dhcp" >> /etc/network/interfaces
+
 clear
 echo "Welcome to NateOS v0.0.1"
+/bin/sh +m
 EOF
+
+ln -s etc/init.d/rcS init
+chmod +x etc/init.d/rcS init
 
 rm linuxrc
 find . | cpio -o -H newc > ../init.cpio
 cd ..
 
-truncate -s 200M nate_os.img
+truncate -s 50M nate_os.img
 mkfs -t fat nate_os.img
 syslinux nate_os.img
 
@@ -63,6 +84,7 @@ umount temp
 rm -rf temp
 
 mv nate_os.img ..
-rm -rf boot-files
+cd ..
+# rm -rf boot-files
 
 echo "Bootable image created successfully as nate_os.img"
