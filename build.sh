@@ -64,6 +64,27 @@ cp -r gcc-4.6.1-2/* boot-files/initramfs
 cp python3.2-static-raw.githubusercontent.com/python3.2-static boot-files/initramfs/bin/python3
 chmod +x boot-files/initramfs/bin/python3
 
+./minos-static/static-get -c
+./minos-static/static-get -v -x opt-nodejs-0.8.18-1
+cp -r opt-nodejs-0.8.18-1/* boot-files/initramfs/
+chmod +x boot-files/initramfs/opt/nodejs/bin/*
+
+./minos-static/static-get -c
+./minos-static/static-get -v -x opt-php-7.1.2-1
+cp -r opt-php-7.1.2-1/* boot-files/initramfs/
+chmod +x boot-files/initramfs/opt/php-7.1/bin/*
+
+./minos-static/static-get -c
+./minos-static/static-get -v -x vim
+rm vim/bin/vi
+chmod +x vim/bin/*
+cp -r vim/* boot-files/initramfs/
+
+./minos-static/static-get -c
+./minos-static/static-get -v -x git
+chmod +x git-1.9.2/bin/*
+cp -r git-1.9.2/* boot-files/initramfs/
+
 cd boot-files/initramfs
 wget -O bin/pfetch https://raw.githubusercontent.com/dylanaraps/pfetch/master/pfetch
 chmod +x bin/pfetch
@@ -85,7 +106,7 @@ mkdir -p /var/run /var/log /var/tmp
 mkdir -p /etc/network /etc/ssh
 
 ln -sf /usr/share/zoneinfo/Asia/Manila /etc/localtime
-export PATH=$PATH:/usr/libexec/gcc/i586-linux-uclibc/4.6.1
+export PATH=$PATH:/usr/libexec/gcc/i586-linux-uclibc/4.6.1:/opt/nodejs/bin:/opt/php-7.1/bin
 
 echo "auto eth0" >> /etc/network/interfaces
 echo "iface eth0 inet dhcp" >> /etc/network/interfaces
@@ -107,7 +128,7 @@ rm linuxrc
 find . | cpio -o -H newc > ../init.cpio
 cd ..
 
-truncate -s 200M nate_os.img
+truncate -s 512M nate_os.img
 mkfs -t fat nate_os.img
 syslinux nate_os.img
 
