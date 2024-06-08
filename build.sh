@@ -13,13 +13,15 @@ apt install        \
     syslinux       \
     dosfstools     \
     cargo          \
-    musl-tools
+    musl-tools     \
+    g++
 
 if ! command -v rustup &> /dev/null; then
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    source $HOME/.cargo/env
 fi
 
-if rustup target list | grep -q "x86_64-unknown-linux-musl"; then
+if ! rustup target list | grep -q "x86_64-unknown-linux-musl (installed)"; then
     rustup target add x86_64-unknown-linux-musl
 fi
 
@@ -40,6 +42,18 @@ mkdir -p ../boot-files/initramfs
 make CONFIG_PREFIX=../boot-files/initramfs install
 cd ..
 
+git clone --depth 1 https://github.com/jmacdonald/amp.git
+cd amp
+cargo build --target=x86_64-unknown-linux-musl --release
+cp ./target/x86_64-unknown-linux-musl/release/amp ../boot-files/initramfs/bin
+cd ..
+
+git clone --depth 1 https://github.com/nerdypepper/eva.git
+cd eva
+cargo build --target=x86_64-unknown-linux-musl --release
+cp ./target/x86_64-unknown-linux-musl/release/eva ../boot-files/initramfs/bin
+cd ..
+
 git clone --depth 1 https://github.com/eza-community/eza.git
 cd eza
 cargo build --target=x86_64-unknown-linux-musl --release
@@ -55,9 +69,9 @@ mkdir -p etc/init.d
 
 cat <<EOF > etc/init.d/rcS
 #!/bin/sh
-echo "root:x:0:0:root:/root:/bin/sh" > etc/passwd
-echo "root:x:0:" > etc/group
-echo "root::10933:0:99999:7:::" > etc/shadow
+echo "root:x:0:0:root:/root:/bin/sh" > /etc/passwd
+echo "root:x:0:" > /etc/group
+echo "root::10933:0:99999:7:::" > /etc/shadow
 echo "root:root" | chpasswd
 
 mount -t proc none /proc
@@ -68,12 +82,16 @@ mkdir -p /etc/network /etc/ssh
 
 ln -sf /usr/share/zoneinfo/Asia/Manila /etc/localtime
 
-echo "nateos" > /etc/hostname
 echo "auto eth0" >> /etc/network/interfaces
 echo "iface eth0 inet dhcp" >> /etc/network/interfaces
 
+echo "nateos" > /etc/hostname
+hostname $(cat /etc/hostname)
 clear
+
+pfetch
 echo "Welcome to NateOS v0.0.1"
+
 /bin/sh +m
 EOF
 
