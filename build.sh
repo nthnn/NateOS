@@ -15,8 +15,7 @@ apt install        \
     cargo          \
     musl-tools
 
-git clone https://github.com/minos-org/minos-static.git
-alias static-get="./minos-static/static-get"
+git clone --depth 1 https://github.com/minos-org/minos-static.git
 
 if ! command -v rustup &> /dev/null; then
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -56,6 +55,15 @@ cargo build --target=x86_64-unknown-linux-musl --release
 cp ./target/x86_64-unknown-linux-musl/release/eza ../boot-files/initramfs/bin
 cd ..
 
+./minos-static/static-get -c
+./minos-static/static-get -v -x gcc
+cp -r gcc-4.6.1-2/* boot-files/initramfs
+
+./minos-static/static-get -c
+./minos-static/static-get -v -x python3.2
+cp python3.2-static-raw.githubusercontent.com/python3.2-static boot-files/initramfs/bin/python3
+chmod +x boot-files/initramfs/bin/python3
+
 cd boot-files/initramfs
 wget -O bin/pfetch https://raw.githubusercontent.com/dylanaraps/pfetch/master/pfetch
 chmod +x bin/pfetch
@@ -77,6 +85,7 @@ mkdir -p /var/run /var/log /var/tmp
 mkdir -p /etc/network /etc/ssh
 
 ln -sf /usr/share/zoneinfo/Asia/Manila /etc/localtime
+export PATH=$PATH:/usr/libexec/gcc/i586-linux-uclibc/4.6.1
 
 echo "auto eth0" >> /etc/network/interfaces
 echo "iface eth0 inet dhcp" >> /etc/network/interfaces
