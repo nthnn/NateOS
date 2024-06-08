@@ -12,8 +12,16 @@ apt install        \
     libssl-dev     \
     syslinux       \
     dosfstools     \
-    rustc          \
-    cargo
+    cargo          \
+    musl-tools
+
+if ! command -v rustup &> /dev/null; then
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+fi
+
+if rustup target list | grep -q "x86_64-unknown-linux-musl"; then
+    rustup target add x86_64-unknown-linux-musl
+fi
 
 git clone --depth 1 https://github.com/torvalds/linux.git
 cd linux
@@ -30,9 +38,20 @@ sed -i 's/# CONFIG_STATIC is not set/CONFIG_STATIC=y/' .config
 make -j 4
 mkdir -p ../boot-files/initramfs
 make CONFIG_PREFIX=../boot-files/initramfs install
+cd ..
 
-cd ../boot-files/initramfs
+git clone --depth 1 https://github.com/eza-community/eza.git
+cd eza
+cargo build --target=x86_64-unknown-linux-musl --release
+cp ./target/x86_64-unknown-linux-musl/release/eza ../boot-files/initramfs/bin
+cd ..
+
+cd boot-files/initramfs
+wget -O bin/pfetch https://raw.githubusercontent.com/dylanaraps/pfetch/master/pfetch
+chmod +x bin/pfetch
+
 mkdir -p etc dev man proc sys tmp
+mkdir -p etc/init.d
 
 cat <<EOF > etc/init.d/rcS
 #!/bin/sh
@@ -45,7 +64,7 @@ mount -t proc none /proc
 mount -t tmpfs none /tmp
 
 mkdir -p /var/run /var/log /var/tmp
-mkdir -p etc/init.d etc/network etc/ssh
+mkdir -p /etc/network /etc/ssh
 
 ln -sf /usr/share/zoneinfo/Asia/Manila /etc/localtime
 
@@ -65,7 +84,7 @@ rm linuxrc
 find . | cpio -o -H newc > ../init.cpio
 cd ..
 
-truncate -s 50M nate_os.img
+truncate -s 200M nate_os.img
 mkfs -t fat nate_os.img
 syslinux nate_os.img
 
@@ -85,6 +104,5 @@ rm -rf temp
 
 mv nate_os.img ..
 cd ..
-# rm -rf boot-files
 
 echo "Bootable image created successfully as nate_os.img"
