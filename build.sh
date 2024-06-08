@@ -1,19 +1,24 @@
-apt install        \
-    bzip2          \
-    git            \
-    make           \
-    gcc            \
-    libncurses-dev \
-    flex           \
-    bison          \
-    bc             \
-    cpio           \
-    libelf-dev     \
-    libssl-dev     \
-    syslinux       \
-    dosfstools     \
-    cargo          \
-    musl-tools
+#!/bin/sh
+if ! command -v apt &> /dev/null; then
+    pacman -S bzip2 git make gcc ncurses flex bison bc cpio elfutils openssl syslinux dosfstools
+else
+    apt install        \
+        bzip2          \
+        git            \
+        make           \
+        gcc            \
+        libncurses-dev \
+        flex           \
+        bison          \
+        bc             \
+        cpio           \
+        libelf-dev     \
+        libssl-dev     \
+        syslinux       \
+        dosfstools     \
+        cargo          \
+        musl-tools
+fi
 
 if [[ ! -d "minos-static" ]]; then
     git clone --depth 1 https://github.com/minos-org/minos-static.git
@@ -104,17 +109,16 @@ chmod +x bin/pfetch
 mkdir -p etc dev man proc sys tmp
 mkdir -p etc/init.d
 
-cat <<EOF > etc/ascii_banner
+cat > etc/ascii_banner <<'EOL'
                _        ____   _____ 
               | |      / __ \ / ____|
    _ __   __ _| |_ ___| |  | | (___  
   | '_ \ / _\ | __/ _ \ |  | |\___ \ 
   | | | | (_| | ||  __/ |__| |____) |
   |_| |_|\__,_|\__\___|\____/|_____/
+EOL
 
-EOF
-
-cat <<EOF > etc/init.d/rcS
+cat > etc/init.d/rcS <<'EOL'
 #!/bin/sh
 echo "root:x:0:0:root:/root:/bin/sh" > /etc/passwd
 echo "root:x:0:" > /etc/group
@@ -139,11 +143,13 @@ hostname \$(cat /etc/hostname)
 clear
 
 cat /etc/ascii_banner
+echo
+
 echo "NateOS (version 0.0.1) [" \$(uname -r) "]"
 echo
 
 /bin/sh +m
-EOF
+EOL
 
 ln -s etc/init.d/rcS init
 chmod +x etc/init.d/rcS init
@@ -159,14 +165,14 @@ syslinux nate_os.img
 mkdir temp
 mount nate_os.img temp
 cp bzImage init.cpio temp
-cat <<EOF > temp/syslinux.cfg
+cat > temp/syslinux.cfg <<'EOL'
 DEFAULT linux
     SAY Booting up NateOS image drive...
 LABEL linux
     KERNEL bzImage
     INITRD init.cpio
     APPEND quiet loglevel=3 root=/dev/ram0 init=/init rw
-EOF
+EOL
 umount temp
 rm -rf temp
 
@@ -174,3 +180,4 @@ mv nate_os.img ..
 cd ..
 
 echo "Bootable image created successfully as nate_os.img"
+
