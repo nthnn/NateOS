@@ -116,7 +116,13 @@ echo "nateos" > /etc/hostname
 hostname $(cat /etc/hostname)
 clear
 
-pfetch
+echo "               _        ____   _____ "
+echo "              | |      / __ \ / ____|"
+echo "   _ __   __ _| |_ ___| |  | | (___  "
+echo "  | '_ \\ / _\` | __/ _ \\ |  | |\\___ \\ "
+echo "  | | | | (_| | ||  __/ |__| |____) |"
+echo "  |_| |_|\\__,_|\\__\\___|\\____/|_____/ "
+echo
 echo "Welcome to NateOS v0.0.1"
 
 /bin/sh +m
@@ -129,7 +135,7 @@ rm linuxrc
 find . | cpio -o -H newc > ../init.cpio
 cd ..
 
-truncate -s 1G nate_os.img
+truncate -s 512M nate_os.img
 mkfs -t fat nate_os.img
 syslinux nate_os.img
 
