@@ -15,7 +15,9 @@ apt install        \
     cargo          \
     musl-tools
 
-git clone --depth 1 https://github.com/minos-org/minos-static.git
+if [[ ! -d "minos-static" ]]; then
+    git clone --depth 1 https://github.com/minos-org/minos-static.git
+fi
 
 if ! command -v rustup &> /dev/null; then
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -26,7 +28,10 @@ if ! rustup target list | grep -q "x86_64-unknown-linux-musl (installed)"; then
     rustup target add x86_64-unknown-linux-musl
 fi
 
-git clone --depth 1 https://github.com/torvalds/linux.git
+if [[ ! -d "linux" ]]; then
+    git clone --depth 1 https://github.com/torvalds/linux.git
+fi
+
 cd linux
 make defconfig
 make -j 4
@@ -34,7 +39,10 @@ mkdir -p ../boot-files
 cp arch/x86/boot/bzImage ../boot-files
 cd ..
 
-git clone --depth 1 https://git.busybox.net/busybox
+if [[ ! -d "busybox" ]]; then
+    git clone --depth 1 https://git.busybox.net/busybox
+fi
+
 cd busybox
 make defconfig
 sed -i 's/# CONFIG_STATIC is not set/CONFIG_STATIC=y/' .config
@@ -43,37 +51,51 @@ mkdir -p ../boot-files/initramfs
 make CONFIG_PREFIX=../boot-files/initramfs install
 cd ..
 
-git clone --depth 1 https://github.com/jmacdonald/amp.git
+if [[ ! -d "amp" ]]; then
+    git clone --depth 1 https://github.com/jmacdonald/amp.git
+fi
+
 cd amp
 cargo build --target=x86_64-unknown-linux-musl --release
 cp ./target/x86_64-unknown-linux-musl/release/amp ../boot-files/initramfs/bin
 cd ..
 
-git clone --depth 1 https://github.com/eza-community/eza.git
+if [[ ! -d "eza" ]]; then
+    git clone --depth 1 https://github.com/eza-community/eza.git
+fi
+
 cd eza
 cargo build --target=x86_64-unknown-linux-musl --release
 cp ./target/x86_64-unknown-linux-musl/release/eza ../boot-files/initramfs/bin
 cd ..
 
-./minos-static/static-get -c
-./minos-static/static-get -v -x gcc
-cp -r gcc-4.6.1-2/* boot-files/initramfs
+if [[ ! -d "gcc-4.6.1-2" ]]; then
+    ./minos-static/static-get -c
+    ./minos-static/static-get -v -x gcc
+    cp -r gcc-4.6.1-2/* boot-files/initramfs
+fi
 
-./minos-static/static-get -c
-./minos-static/static-get -v -x python3.2
-cp python3.2-static-raw.githubusercontent.com/python3.2-static boot-files/initramfs/bin/python3
-chmod +x boot-files/initramfs/bin/python3
+if [[ ! -d "python3.2-static-raw.githubusercontent.com" ]]; then
+    ./minos-static/static-get -c
+    ./minos-static/static-get -v -x python3.2
+    cp python3.2-static-raw.githubusercontent.com/python3.2-static boot-files/initramfs/bin/python3
+    chmod +x boot-files/initramfs/bin/python3
+fi
 
-./minos-static/static-get -c
-./minos-static/static-get -v -x opt-nodejs-0.8.18-1
-cp -r opt-nodejs-0.8.18-1/* boot-files/initramfs/
-chmod +x boot-files/initramfs/opt/nodejs/bin/*
+if [[ ! -d "opt-nodejs-0.8.18-1" ]]; then
+    ./minos-static/static-get -c
+    ./minos-static/static-get -v -x opt-nodejs-0.8.18-1
+    cp -r opt-nodejs-0.8.18-1/* boot-files/initramfs/
+    chmod +x boot-files/initramfs/opt/nodejs/bin/*
+fi
 
-./minos-static/static-get -c
-./minos-static/static-get -v -x vim
-rm vim/bin/vi
-chmod +x vim/bin/*
-cp -r vim/* boot-files/initramfs/
+if [[ ! -d "vim" ]]; then
+    ./minos-static/static-get -c
+    ./minos-static/static-get -v -x vim
+    rm vim/bin/vi
+    chmod +x vim/bin/*
+    cp -r vim/* boot-files/initramfs/
+fi
 
 cd boot-files/initramfs
 wget -O bin/pfetch https://raw.githubusercontent.com/dylanaraps/pfetch/master/pfetch
@@ -81,6 +103,16 @@ chmod +x bin/pfetch
 
 mkdir -p etc dev man proc sys tmp
 mkdir -p etc/init.d
+
+cat <<EOF > etc/ascii_banner
+               _        ____   _____ 
+              | |      / __ \ / ____|
+   _ __   __ _| |_ ___| |  | | (___  
+  | '_ \ / _\ | __/ _ \ |  | |\___ \ 
+  | | | | (_| | ||  __/ |__| |____) |
+  |_| |_|\__,_|\__\___|\____/|_____/
+
+EOF
 
 cat <<EOF > etc/init.d/rcS
 #!/bin/sh
@@ -96,24 +128,19 @@ mkdir -p /var/run /var/log /var/tmp
 mkdir -p /etc/network /etc/ssh
 
 ln -sf /usr/share/zoneinfo/Asia/Manila /etc/localtime
-export PATH=$PATH:/usr/libexec/gcc/i586-linux-uclibc/4.6.1
-alias tree='sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'
+export PATH=$PATH:/usr/libexec/gcc/i586-linux-uclibc/4.6.1:/opt/nodejs/bin
+export PS1='\n[\e[38;5;129m]┌─[[\e[0m][\e[1;33m]\u[\e[0m][\e[1;36m]@[\e[0m][\e[1;33m]\$(hostname)[\e[0m][\e[38;5;129m]]─[[\e[0m][\e[1;34m]\w[\e[0m][\e[38;5;129m]][\e[38;5;129m]─[[\e[0m][\e[0;31m]@[\e[0m][\e[38;5;129m]][\e[0m]\n[\e[38;5;129m]└─[[\e[0m][\e[1;37m]$[\e[0m][\e[38;5;129m]]› [\e[0m]'
+alias tree='grep :$ | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'
 
 echo "auto eth0" >> /etc/network/interfaces
 echo "iface eth0 inet dhcp" >> /etc/network/interfaces
 
 echo "nateos" > /etc/hostname
-hostname $(cat /etc/hostname)
+hostname \$(cat /etc/hostname)
 clear
 
-echo "               _        ____   _____ "
-echo "              | |      / __ \ / ____|"
-echo "   _ __   __ _| |_ ___| |  | | (___  "
-echo "  | '_ \\ / _\` | __/ _ \\ |  | |\\___ \\ "
-echo "  | | | | (_| | ||  __/ |__| |____) |"
-echo "  |_| |_|\\__,_|\\__\\___|\\____/|_____/ "
-echo
-echo "Welcome to NateOS v0.0.1"
+cat /etc/ascii_banner
+echo "NateOS (version 0.0.1) [" \$(uname -r) "]"
 
 /bin/sh +m
 EOF
