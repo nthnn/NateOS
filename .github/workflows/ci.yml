@@ -13,7 +13,6 @@ jobs:
 
       - name: Build NateOS
         run: |
-          sudo su
-          ./build.sh
+          sudo ./build.sh
 
       - run: echo "Build status report=${{ job.status }}."
