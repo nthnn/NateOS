@@ -129,7 +129,7 @@ mkdir -p /etc/network /etc/ssh
 
 ln -sf /usr/share/zoneinfo/Asia/Manila /etc/localtime
 export PATH=$PATH:/usr/libexec/gcc/i586-linux-uclibc/4.6.1:/opt/nodejs/bin
-export PS1='[\[\e[1;33m\]\u@\h\[\e[0m\]] (\[\e[1;36m\]\$(date "+%F %T")\[\e[0m\]) \[\e[1;34m\]\w\[\e[0m\]\[\e[1;32m\]\$\[\e[0m\] '
+export PS1='[\[\e[1;33m\]\u@\h\[\e[0m\]] (\[\e[1;36m\]\$(date "+%T")\[\e[0m\]) \[\e[1;34m\]\w\[\e[0m\]\[\e[1;32m\]\$\[\e[0m\] '
 
 echo "auto eth0" >> /etc/network/interfaces
 echo "iface eth0 inet dhcp" >> /etc/network/interfaces
