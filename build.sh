@@ -72,30 +72,30 @@ cd ..
 if [[ ! -d "gcc-4.6.1-2" ]]; then
     ./minos-static/static-get -c
     ./minos-static/static-get -v -x gcc
-    cp -r gcc-4.6.1-2/* boot-files/initramfs
 fi
+cp -r gcc-4.6.1-2/* boot-files/initramfs
 
 if [[ ! -d "python3.2-static-raw.githubusercontent.com" ]]; then
     ./minos-static/static-get -c
     ./minos-static/static-get -v -x python3.2
-    cp python3.2-static-raw.githubusercontent.com/python3.2-static boot-files/initramfs/bin/python3
-    chmod +x boot-files/initramfs/bin/python3
 fi
+cp python3.2-static-raw.githubusercontent.com/python3.2-static boot-files/initramfs/bin/python3
+chmod +x boot-files/initramfs/bin/python3
 
 if [[ ! -d "opt-nodejs-0.8.18-1" ]]; then
     ./minos-static/static-get -c
     ./minos-static/static-get -v -x opt-nodejs-0.8.18-1
-    cp -r opt-nodejs-0.8.18-1/* boot-files/initramfs/
-    chmod +x boot-files/initramfs/opt/nodejs/bin/*
 fi
+cp -r opt-nodejs-0.8.18-1/* boot-files/initramfs/
+chmod +x boot-files/initramfs/opt/nodejs/bin/*
 
 if [[ ! -d "vim" ]]; then
     ./minos-static/static-get -c
     ./minos-static/static-get -v -x vim
-    rm vim/bin/vi
-    chmod +x vim/bin/*
-    cp -r vim/* boot-files/initramfs/
 fi
+rm vim/bin/vi
+chmod +x vim/bin/*
+cp -r vim/* boot-files/initramfs/
 
 cd boot-files/initramfs
 wget -O bin/pfetch https://raw.githubusercontent.com/dylanaraps/pfetch/master/pfetch
