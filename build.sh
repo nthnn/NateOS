@@ -13,8 +13,10 @@ apt install        \
     syslinux       \
     dosfstools     \
     cargo          \
-    musl-tools     \
-    g++
+    musl-tools
+
+git clone https://github.com/minos-org/minos-static.git
+alias static-get="./minos-static/static-get"
 
 if ! command -v rustup &> /dev/null; then
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -46,12 +48,6 @@ git clone --depth 1 https://github.com/jmacdonald/amp.git
 cd amp
 cargo build --target=x86_64-unknown-linux-musl --release
 cp ./target/x86_64-unknown-linux-musl/release/amp ../boot-files/initramfs/bin
-cd ..
-
-git clone --depth 1 https://github.com/nerdypepper/eva.git
-cd eva
-cargo build --target=x86_64-unknown-linux-musl --release
-cp ./target/x86_64-unknown-linux-musl/release/eva ../boot-files/initramfs/bin
 cd ..
 
 git clone --depth 1 https://github.com/eza-community/eza.git
