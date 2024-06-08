@@ -11,8 +11,10 @@ jobs:
       - name: Grant execute permission for build script
         run: chmod +x build.sh
 
+      - name: Update and upgrade APT
+        run: sudo apt update && sudo apt upgrade
+
       - name: Build NateOS
-        run: |
-          sudo ./build.sh
+        run: sudo ./build.sh
 
       - run: echo "Build status report=${{ job.status }}."
