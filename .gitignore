@@ -3,7 +3,6 @@ boot-files/
 busybox/
 eza/
 gcc-4.6.1-2/
-git-1.9.2/
 linux/
 minos-static/
 opt-php-7.1.2-1/
@@ -14,7 +13,6 @@ vim/
 opt-nodejs-0.8.18-1.tar.xz
 python3.2-static-raw.githubusercontent.com.tar.xz
 gcc-4.6.1-2.tar.xz
-git-1.9.2.tar.xz
 opt-php-7.1.2-1.tar.xz
 vim.tar.xz
 

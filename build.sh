@@ -80,11 +80,6 @@ rm vim/bin/vi
 chmod +x vim/bin/*
 cp -r vim/* boot-files/initramfs/
 
-./minos-static/static-get -c
-./minos-static/static-get -v -x git
-chmod +x git-1.9.2/bin/*
-cp -r git-1.9.2/* boot-files/initramfs/
-
 cd boot-files/initramfs
 wget -O bin/pfetch https://raw.githubusercontent.com/dylanaraps/pfetch/master/pfetch
 chmod +x bin/pfetch
