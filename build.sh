@@ -16,7 +16,7 @@ apt install        \
     cargo          \
     musl-tools
 
-if [[ ! -d "minos-static" ]]; then
+if [ ! -d "minos-static" ]; then
     git clone --depth 1 https://github.com/minos-org/minos-static.git
 fi
 
@@ -29,7 +29,7 @@ if ! rustup target list | grep -q "x86_64-unknown-linux-musl (installed)"; then
     rustup target add x86_64-unknown-linux-musl
 fi
 
-if [[ ! -d "linux" ]]; then
+if [ ! -d "linux" ]; then
     git clone --depth 1 https://github.com/torvalds/linux.git
 fi
 
@@ -40,7 +40,7 @@ mkdir -p ../boot-files
 cp arch/x86/boot/bzImage ../boot-files
 cd ..
 
-if [[ ! -d "busybox" ]]; then
+if [ ! -d "busybox" ]; then
     git clone --depth 1 https://git.busybox.net/busybox
 fi
 
@@ -52,7 +52,7 @@ mkdir -p ../boot-files/initramfs
 make CONFIG_PREFIX=../boot-files/initramfs install
 cd ..
 
-if [[ ! -d "amp" ]]; then
+if [ ! -d "amp" ]; then
     git clone --depth 1 https://github.com/jmacdonald/amp.git
 fi
 
@@ -61,7 +61,7 @@ cargo build --target=x86_64-unknown-linux-musl --release
 cp ./target/x86_64-unknown-linux-musl/release/amp ../boot-files/initramfs/bin
 cd ..
 
-if [[ ! -d "eza" ]]; then
+if [ ! -d "eza" ]; then
     git clone --depth 1 https://github.com/eza-community/eza.git
 fi
 
@@ -70,27 +70,27 @@ cargo build --target=x86_64-unknown-linux-musl --release
 cp ./target/x86_64-unknown-linux-musl/release/eza ../boot-files/initramfs/bin
 cd ..
 
-if [[ ! -d "gcc-4.6.1-2" ]]; then
+if [ ! -d "gcc-4.6.1-2" ]; then
     ./minos-static/static-get -c
     ./minos-static/static-get -v -x gcc
 fi
 cp -r gcc-4.6.1-2/* boot-files/initramfs
 
-if [[ ! -d "python3.2-static-raw.githubusercontent.com" ]]; then
+if [ ! -d "python3.2-static-raw.githubusercontent.com" ]; then
     ./minos-static/static-get -c
     ./minos-static/static-get -v -x python3.2
 fi
 cp python3.2-static-raw.githubusercontent.com/python3.2-static boot-files/initramfs/bin/python3
 chmod +x boot-files/initramfs/bin/python3
 
-if [[ ! -d "opt-nodejs-0.8.18-1" ]]; then
+if [ ! -d "opt-nodejs-0.8.18-1" ]; then
     ./minos-static/static-get -c
     ./minos-static/static-get -v -x opt-nodejs-0.8.18-1
 fi
 cp -r opt-nodejs-0.8.18-1/* boot-files/initramfs/
 chmod +x boot-files/initramfs/opt/nodejs/bin/*
 
-if [[ ! -d "vim" ]]; then
+if [ ! -d "vim" ]; then
     ./minos-static/static-get -c
     ./minos-static/static-get -v -x vim
 fi
@@ -130,7 +130,7 @@ mkdir -p /etc/network /etc/ssh
 
 ln -sf /usr/share/zoneinfo/Asia/Manila /etc/localtime
 export PATH=$PATH:/usr/libexec/gcc/i586-linux-uclibc/4.6.1:/opt/nodejs/bin
-export PS1='[\[\e[1;33m\]\u@\h\[\e[0m\]] (\[\e[1;36m\]\$(date "+%T")\[\e[0m\]) \[\e[1;34m\]\w\[\e[0m\]\[\e[1;32m\]\$\[\e[0m\] '
+export PS1='[\[\e[1;33m\]\u@\h\[\e[0m\] (\[\e[1;36m\]\$(date "+%T")\[\e[0m\]) \[\e[1;34m\]\w\[\e[0m\]\[\e[1;32m\]\$\[\e[0m\] '
 
 echo "auto eth0" >> /etc/network/interfaces
 echo "iface eth0 inet dhcp" >> /etc/network/interfaces
