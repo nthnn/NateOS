@@ -140,6 +140,7 @@ clear
 
 cat /etc/ascii_banner
 echo "NateOS (version 0.0.1) [" \$(uname -r) "]"
+echo
 
 /bin/sh +m
 EOF
