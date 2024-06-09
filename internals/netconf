@@ -1,20 +1,19 @@
 #!/bin/sh
 usage() {
     echo "Usage: netconf <interface> <IPv4_address> <gateway>"
-    echo
+    echo -e "\n"
 
     echo "  This Bash script is designed to configure network"
     echo "  interfaces and set the default gateway on a Linux"
     echo "  system. It accepts three arguments:"
-    echo
+    echo -e "\n"
 
     echo "    - <interface> : network interface to be configured (e.g., eth0)"
     echo "    - <ipv4_addr> : address to assign to the specified interface"
     echo "    - <gateway>   : IP address of the default gateway"
-    echo
+    echo -e "\n"
 
     echo "Example: netconf eth0 10.0.2.15 10.0.2.2"
-    exit 1
 }
 
 if [ "$#" -ne 3 ]; then
@@ -35,3 +34,4 @@ echo "Setting default gateway to $gateway"
 route add default gw "$gateway"
 
 echo "Network configuration completed successfully"
+
