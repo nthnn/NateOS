@@ -35,6 +35,12 @@ fi
 
 cd linux
 make defconfig
+sed -i 's/# CONFIG_NET is not set/CONFIG_NET=y/' .config
+sed -i 's/# CONFIG_NETDEVICES is not set/CONFIG_NETDEVICES=y/' .config
+sed -i 's/# CONFIG_ETHERNET is not set/CONFIG_ETHERNET=y/' .config
+sed -i 's/# CONFIG_TUN is not set/CONFIG_TUN=y/' .config
+sed -i 's/# CONFIG_E1000 is not set/CONFIG_E1000=y/' .config
+sed -i 's/# CONFIG_VIRTIO_NET is not set/CONFIG_VIRTIO_NET=y/' .config
 make -j $(nproc)
 mkdir -p ../boot-files
 cp arch/x86/boot/bzImage ../boot-files
@@ -47,6 +53,10 @@ fi
 cd busybox
 make defconfig
 sed -i 's/# CONFIG_STATIC is not set/CONFIG_STATIC=y/' .config
+sed -i 's/# CONFIG_IFCONFIG is not set/CONFIG_IFCONFIG=y/' .config
+sed -i 's/# CONFIG_UDHCPC is not set/CONFIG_UDHCPC=y/' .config
+sed -i 's/# CONFIG_PING is not set/CONFIG_PING=y/' .config
+make oldconfig
 make -j $(nproc)
 mkdir -p ../boot-files/initramfs
 make CONFIG_PREFIX=../boot-files/initramfs install
@@ -134,6 +144,9 @@ rm vim/bin/vi
 chmod +x vim/bin/*
 cp -r vim/* boot-files/initramfs/
 
+cp internals/netconf boot-files/initramfs/bin/netconf
+chmod +x boot-files/initramfs/bin/netconf
+
 cd boot-files/initramfs
 wget -O bin/pfetch https://raw.githubusercontent.com/dylanaraps/pfetch/master/pfetch
 chmod +x bin/pfetch
@@ -171,6 +184,12 @@ export PS1='[\[\e[1;33m\]\u@\h\[\e[0m\]] (\[\e[1;36m\]\$(date "+%T")\[\e[0m\]) \
 echo "auto eth0" >> /etc/network/interfaces
 echo "iface eth0 inet dhcp" >> /etc/network/interfaces
 
+ifconfig eth0 up
+udhcpc -i eth0
+
+echo "nameserver 8.8.8.8" > /etc/resolv.conf
+echo "nameserver 8.8.4.4" >> /etc/resolv.conf
+
 echo "nateos" > /etc/hostname
 hostname \$(cat /etc/hostname)
 clear
@@ -202,7 +221,7 @@ DEFAULT linux
 LABEL linux
     KERNEL bzImage
     INITRD init.cpio
-    APPEND quiet loglevel=3 root=/dev/ram0 init=/init rw
+    APPEND loglevel=3 root=/dev/ram0 init=/init rw
 EOF
 umount temp
 rm -rf temp
