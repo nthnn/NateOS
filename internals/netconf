@@ -1,0 +1,24 @@
+#!/bin/sh
+usage() {
+    echo "Usage: $0 <interface> <IPv4_address> <gateway>"
+    echo "Example: $0 eth0 192.168.1.100 192.168.1.1"
+}
+
+if [ "$#" -ne 3 ]; then
+    usage
+    exit 1
+fi
+
+interface=$1
+ip_address=$2
+gateway=$3
+
+echo "Configuring $interface with IP address $ip_address and netmask 255.255.255.0"
+ifconfig "$interface" up
+udhcpc -i "$interface"
+ifconfig "$interface" "$ip_address" netmask 255.255.255.0
+
+echo "Setting default gateway to $gateway"
+route add default gw "$gateway"
+
+echo "Network configuration completed successfully"
