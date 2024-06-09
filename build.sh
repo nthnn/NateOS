@@ -1,4 +1,4 @@
-#!/bin/sh
+ #!/bin/sh
 apt install        \
     bzip2          \
     git            \
@@ -35,7 +35,7 @@ fi
 
 cd linux
 make defconfig
-make -j 4
+make -j $(nproc)
 mkdir -p ../boot-files
 cp arch/x86/boot/bzImage ../boot-files
 cd ..
@@ -47,7 +47,7 @@ fi
 cd busybox
 make defconfig
 sed -i 's/# CONFIG_STATIC is not set/CONFIG_STATIC=y/' .config
-make -j 4
+make -j $(nproc)
 mkdir -p ../boot-files/initramfs
 make CONFIG_PREFIX=../boot-files/initramfs install
 cd ..
@@ -68,6 +68,42 @@ fi
 cd eza
 cargo build --target=x86_64-unknown-linux-musl --release
 cp ./target/x86_64-unknown-linux-musl/release/eza ../boot-files/initramfs/bin
+cd ..
+
+if [ ! -d "broot" ]; then
+    git clone --depth 1 https://github.com/Canop/broot.git
+fi
+
+cd broot
+cargo build --target=x86_64-unknown-linux-musl --release
+cp ./target/x86_64-unknown-linux-musl/release/broot ../boot-files/initramfs/bin
+cd ..
+
+if [ ! -d "loc" ]; then
+    git clone --depth 1 https://github.com/cgag/loc.git
+fi
+
+cd loc
+cargo build --target=x86_64-unknown-linux-musl --release
+cp ./target/x86_64-unknown-linux-musl/release/loc ../boot-files/initramfs/bin/
+cd ..
+
+if [ ! -d "bottom" ]; then
+    git clone --depth 1 https://github.com/ClementTsang/bottom.git
+fi
+
+cd bottom
+cargo build --target=x86_64-unknown-linux-musl --release
+cp ./target/x86_64-unknown-linux-musl/release/btm ../boot-files/initramfs/bin/
+cd ..
+
+if [ ! -d "hex" ]; then
+    git clone --depth 1 https://github.com/sitkevij/hex.git
+fi
+
+cd hex
+cargo build --target=x86_64-unknown-linux-musl --release
+cp ./target/x86_64-unknown-linux-musl/release/hx ../boot-files/initramfs/bin/
 cd ..
 
 if [ ! -d "gcc-4.6.1-2" ]; then
@@ -130,7 +166,7 @@ mkdir -p /etc/network /etc/ssh
 
 ln -sf /usr/share/zoneinfo/Asia/Manila /etc/localtime
 export PATH=$PATH:/usr/libexec/gcc/i586-linux-uclibc/4.6.1:/opt/nodejs/bin
-export PS1='[\[\e[1;33m\]\u@\h\[\e[0m\] (\[\e[1;36m\]\$(date "+%T")\[\e[0m\]) \[\e[1;34m\]\w\[\e[0m\]\[\e[1;32m\]\$\[\e[0m\] '
+export PS1='[\[\e[1;33m\]\u@\h\[\e[0m\]] (\[\e[1;36m\]\$(date "+%T")\[\e[0m\]) \[\e[1;34m\]\w\[\e[0m\]\[\e[1;32m\]\$\[\e[0m\] '
 
 echo "auto eth0" >> /etc/network/interfaces
 echo "iface eth0 inet dhcp" >> /etc/network/interfaces
@@ -153,7 +189,7 @@ rm linuxrc
 find . | cpio -o -H newc > ../init.cpio
 cd ..
 
-truncate -s 256M nate_os.img
+truncate -s 350M nate_os.img
 mkfs -t fat nate_os.img
 syslinux nate_os.img
 
