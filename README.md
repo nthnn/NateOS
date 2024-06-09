@@ -1,5 +1,7 @@
 # NateOS
 
+NateOS is a lightweight Linux distribution that you can build from source. I made NateOS for fun and obviously not for serious stuffs.
+
 ## What's in the box?
 
 The NateOS distro includes the following programs and packages:
@@ -19,9 +21,11 @@ The NateOS distro includes the following programs and packages:
 
 ## Getting Started
 
+### Building from Start
+
 To get started in Ubuntu, follow the steps below.
 
-1. Pull the NateOS git repository.
+1. **Clone the Repository**: Pull the NateOS git repository to your local machine.
 
     ```bash
     # Clone NateOS build script
@@ -29,13 +33,13 @@ To get started in Ubuntu, follow the steps below.
     cd NateOS
     ```
 
-2. Switch to `sudo` mode via:
+2. **Switch to `sudo` Mode**: Switch to `sudo` mode to ensure you have the necessary permissions for installation.
 
     ```bash
     sudo su
     ```
 
-3. Install `rustup` by following the instructions [here](https://www.rust-lang.org/tools/install).
+3. **Install `rustup`**: Install `rustup` to manage the Rust toolchain. Follow the instructions provided [here](https://www.rust-lang.org/tools/install). Then add the Linux MUSL target for Rust compiler.
 
     ```bash
     # Default installation for `rustup`
@@ -45,11 +49,29 @@ To get started in Ubuntu, follow the steps below.
     rustup target add x86_64-unknown-linux-musl
     ```
 
-4. Finally, build NateOS by typing the command below:
+4. **Build NateOS**: Run the build script to compile all necessary binaries, including the Linux kernel and BusyBox. Execute the following command:
 
     ```bash
     chmod +x build.sh
     ./build.sh
     ```
 
-    This will build all necessary binaries such Linux kernel, BusyBox, etc. And will generate nate_os.img on the same working directory if everything was successfully executed.
+    This will generate `nate_os.img` in the current working directory upon successful execution.
+
+### Emulating with QEMU
+
+After successfully building NateOS, you can emulate it using QEMU. Ensure that QEMU, especially `qemu-system-x86_64`, is installed on your system. Run the following command:
+
+```bash
+sudo chmod +x emulate.sh
+./emulate.sh
+```
+
+### Cleaning Up
+
+To remove all downloaded files and Git repositories created by the `build.sh` script, use the following command:
+
+```bash
+sudo chmod +x clean.sh
+./clean.sh
+```
