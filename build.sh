@@ -154,53 +154,8 @@ chmod +x bin/pfetch
 mkdir -p etc dev man proc sys tmp
 mkdir -p etc/init.d
 
-cat <<EOF > etc/ascii_banner
-               _        ____   _____ 
-              | |      / __ \ / ____|
-   _ __   __ _| |_ ___| |  | | (___  
-  | '_ \ / _\ | __/ _ \ |  | |\___ \ 
-  | | | | (_| | ||  __/ |__| |____) |
-  |_| |_|\__,_|\__\___|\____/|_____/
-
-EOF
-
-cat <<EOF > etc/init.d/rcS
-#!/bin/sh
-echo "root:x:0:0:root:/root:/bin/sh" > /etc/passwd
-echo "root:x:0:" > /etc/group
-echo "root::10933:0:99999:7:::" > /etc/shadow
-echo "root:root" | chpasswd
-
-mount -t proc none /proc
-mount -t tmpfs none /tmp
-
-mkdir -p /var/run /var/log /var/tmp
-mkdir -p /etc/network /etc/ssh
-
-ln -sf /usr/share/zoneinfo/Asia/Manila /etc/localtime
-export PATH=$PATH:/usr/libexec/gcc/i586-linux-uclibc/4.6.1:/opt/nodejs/bin
-export PS1='[\[\e[1;33m\]\u@\h\[\e[0m\]] (\[\e[1;36m\]\$(date "+%T")\[\e[0m\]) \[\e[1;34m\]\w\[\e[0m\]\[\e[1;32m\]\$\[\e[0m\] '
-
-echo "auto eth0" >> /etc/network/interfaces
-echo "iface eth0 inet dhcp" >> /etc/network/interfaces
-
-ifconfig eth0 up
-udhcpc -i eth0
-
-echo "nameserver 8.8.8.8" > /etc/resolv.conf
-echo "nameserver 8.8.4.4" >> /etc/resolv.conf
-
-echo "nateos" > /etc/hostname
-hostname \$(cat /etc/hostname)
-clear
-
-cat /etc/ascii_banner
-echo "NateOS (version 0.0.1) [" \$(uname -r) "]"
-echo
-
-/bin/sh +m
-EOF
-
+cp ../../internals/nthnn.ascii etc/nthnn.ascii
+cp ../../internals/rcS etc/init.d/rcS
 ln -s etc/init.d/rcS init
 chmod +x etc/init.d/rcS init
 
