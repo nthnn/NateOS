@@ -1,5 +1,4 @@
 rm -rf \
-    amp \
     boot-files \
     bottom \
     broot \

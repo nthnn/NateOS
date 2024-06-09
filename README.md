@@ -6,7 +6,6 @@ NateOS is a lightweight Linux distribution that you can build from source. I mad
 
 The NateOS distro includes the following programs and packages:
 
-- [amp](https://github.com/jmacdonald/amp) - A complete text editor for your terminal.
 - [bottom](https://github.com/ClementTsang/bottom) - Yet another cross-platform graphical process/system monitor.
 - [broot](https://github.com/Canop/broot) - Get an overview of a directory, even a big one.
 - [BusyBox](https://www.busybox.net/about.html) - BusyBox combines tiny versions of many common UNIX utilities into a single small executable.

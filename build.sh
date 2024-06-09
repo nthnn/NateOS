@@ -62,15 +62,6 @@ mkdir -p ../boot-files/initramfs
 make CONFIG_PREFIX=../boot-files/initramfs install
 cd ..
 
-if [ ! -d "amp" ]; then
-    git clone --depth 1 https://github.com/jmacdonald/amp.git
-fi
-
-cd amp
-cargo build --target=x86_64-unknown-linux-musl --release
-cp ./target/x86_64-unknown-linux-musl/release/amp ../boot-files/initramfs/bin
-cd ..
-
 if [ ! -d "eza" ]; then
     git clone --depth 1 https://github.com/eza-community/eza.git
 fi
