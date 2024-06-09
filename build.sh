@@ -135,6 +135,13 @@ rm vim/bin/vi
 chmod +x vim/bin/*
 cp -r vim/* boot-files/initramfs/
 
+if [ ! -d "lynx" ]; then
+    ./minos-static/static-get -c
+    ./minos-static/static-get -v -x lynx
+fi
+chmod +x lynx/bin/lynx
+cp -r lynx/* boot-files/initramfs/
+
 cp internals/netconf boot-files/initramfs/bin/netconf
 chmod +x boot-files/initramfs/bin/netconf
 

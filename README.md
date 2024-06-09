@@ -13,6 +13,7 @@ The NateOS distro includes the following programs and packages:
 - [GCC 4.6.1-2](https://gcc.gnu.org/) - Toolchain that compiles code, links it with any library dependencies, converts that code to assembly, and then prepares executable files.
 - [hex](https://github.com/sitkevij/hex) - Futuristic take on hexdump.
 - [loc](https://github.com/cgag/loc) - Count lines of code quickly.
+- [lynx](https://lynx.invisible-island.net/) - Lynx is the text web browser.
 - [NodeJS 0.8.18-1](https://nodejs.org/en) - A cross-platform, open-source JavaScript runtime environment that can run on Windows, Linux, Unix, macOS, and more.
 - [pfetch](https://github.com/dylanaraps/pfetch) - A pretty system information tool written in POSIX sh.
 - [Python3.2](https://www.python.org/) - Python is a high-level, dynamic, general-purpose programming language.
