@@ -10,7 +10,6 @@ rm -rf \
     linux \
     loc \
     lpm \
-    lynx \
     minos-static \
     opt-nodejs-0.8.18-1 \
     python3.2-static-raw.githubusercontent.com \
