@@ -5,9 +5,13 @@
 The NateOS distro includes the following programs and packages:
 
 - [amp](https://github.com/jmacdonald/amp) - A complete text editor for your terminal.
+- [bottom](https://github.com/ClementTsang/bottom) - Yet another cross-platform graphical process/system monitor.
+- [broot](https://github.com/Canop/broot) - Get an overview of a directory, even a big one.
 - [BusyBox](https://www.busybox.net/about.html) - BusyBox combines tiny versions of many common UNIX utilities into a single small executable.
 - [eza](https://github.com/eza-community/eza) - A modern, maintained replacement for the venerable file-listing command-line program ls that ships with Unix and Linux operating systems.
 - [GCC 4.6.1-2](https://gcc.gnu.org/) - Toolchain that compiles code, links it with any library dependencies, converts that code to assembly, and then prepares executable files.
+- [hex](https://github.com/sitkevij/hex) - Futuristic take on hexdump.
+- [loc](https://github.com/cgag/loc) - Count lines of code quickly.
 - [NodeJS 0.8.18-1](https://nodejs.org/en) - A cross-platform, open-source JavaScript runtime environment that can run on Windows, Linux, Unix, macOS, and more.
 - [pfetch](https://github.com/dylanaraps/pfetch) - A pretty system information tool written in POSIX sh.
 - [Python3.2](https://www.python.org/) - Python is a high-level, dynamic, general-purpose programming language.
