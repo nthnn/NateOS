@@ -35,12 +35,6 @@ fi
 
 cd linux
 make defconfig
-sed -i 's/# CONFIG_NET is not set/CONFIG_NET=y/' .config
-sed -i 's/# CONFIG_NETDEVICES is not set/CONFIG_NETDEVICES=y/' .config
-sed -i 's/# CONFIG_ETHERNET is not set/CONFIG_ETHERNET=y/' .config
-sed -i 's/# CONFIG_TUN is not set/CONFIG_TUN=y/' .config
-sed -i 's/# CONFIG_E1000 is not set/CONFIG_E1000=y/' .config
-sed -i 's/# CONFIG_VIRTIO_NET is not set/CONFIG_VIRTIO_NET=y/' .config
 make -j $(nproc)
 mkdir -p ../boot-files
 cp arch/x86/boot/bzImage ../boot-files
@@ -53,10 +47,6 @@ fi
 cd busybox
 make defconfig
 sed -i 's/# CONFIG_STATIC is not set/CONFIG_STATIC=y/' .config
-sed -i 's/# CONFIG_IFCONFIG is not set/CONFIG_IFCONFIG=y/' .config
-sed -i 's/# CONFIG_UDHCPC is not set/CONFIG_UDHCPC=y/' .config
-sed -i 's/# CONFIG_PING is not set/CONFIG_PING=y/' .config
-make oldconfig
 make -j $(nproc)
 mkdir -p ../boot-files/initramfs
 make CONFIG_PREFIX=../boot-files/initramfs install
@@ -135,13 +125,6 @@ rm vim/bin/vi
 chmod +x vim/bin/*
 cp -r vim/* boot-files/initramfs/
 
-if [ ! -d "lynx" ]; then
-    ./minos-static/static-get -c
-    ./minos-static/static-get -v -x lynx
-fi
-chmod +x lynx/bin/lynx
-cp -r lynx/* boot-files/initramfs/
-
 cp internals/netconf boot-files/initramfs/bin/netconf
 chmod +x boot-files/initramfs/bin/netconf
 
@@ -183,3 +166,4 @@ mv nate_os.img ..
 cd ..
 
 echo "Bootable image created successfully as nate_os.img"
+
