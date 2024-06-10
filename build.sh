@@ -136,8 +136,7 @@ chmod +x bin/pfetch
 mkdir -p etc dev man proc sys tmp
 mkdir -p etc/init.d
 
-cp ../../internals/nthnn.ascii etc/nthnn.ascii
-cp ../../internals/rcS etc/init.d/rcS
+cp -r ../../internals/etc/* etc/
 ln -s etc/init.d/rcS init
 chmod +x etc/init.d/rcS init
 
