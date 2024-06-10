@@ -98,6 +98,13 @@ cargo build --target=x86_64-unknown-linux-musl --release
 cp ./target/x86_64-unknown-linux-musl/release/hx ../boot-files/initramfs/bin/
 cd ..
 
+if [ ! -d "curl" ]; then
+    ./minos-static/static-get -c
+    ./minos-static/static-get -v -x curl
+fi
+chmod +x curl/bin/curl
+cp -r curl/* boot-files/initramfs
+
 if [ ! -d "gcc-4.6.1-2" ]; then
     ./minos-static/static-get -c
     ./minos-static/static-get -v -x gcc
