@@ -5,6 +5,7 @@ busybox/
 eza/
 gcc-4.6.1-2/
 hex/
+iso/
 linux/
 loc/
 lynx/
@@ -18,4 +19,4 @@ python3.2-static-raw.githubusercontent.com.tar.xz
 gcc-4.6.1-2.tar.xz
 vim.tar.xz
 
-nate_os.img
+nate_os.iso
