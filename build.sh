@@ -11,10 +11,9 @@ apt install        \
     cpio           \
     libelf-dev     \
     libssl-dev     \
-    syslinux       \
-    dosfstools     \
     cargo          \
-    musl-tools
+    musl-tools     \
+    xorriso
 
 if [ ! -d "minos-static" ]; then
     git clone --depth 1 https://github.com/minos-org/minos-static.git
@@ -29,6 +28,8 @@ if ! rustup target list | grep -q "x86_64-unknown-linux-musl (installed)"; then
     rustup target add x86_64-unknown-linux-musl
 fi
 
+mkdir -p boot-files iso iso/boot iso/boot/grub
+
 if [ ! -d "linux" ]; then
     git clone --depth 1 https://github.com/torvalds/linux.git
 fi
@@ -36,8 +37,7 @@ fi
 cd linux
 make defconfig
 make -j $(nproc)
-mkdir -p ../boot-files
-cp arch/x86/boot/bzImage ../boot-files
+cp arch/x86/boot/bzImage ../iso/boot
 cd ..
 
 if [ ! -d "busybox" ]; then
@@ -47,6 +47,7 @@ fi
 cd busybox
 make defconfig
 sed -i 's/# CONFIG_STATIC is not set/CONFIG_STATIC=y/' .config
+sed -i 's/CONFIG_TC=y/CONFIG_TC=n/' .config
 make -j $(nproc)
 mkdir -p ../boot-files/initramfs
 make CONFIG_PREFIX=../boot-files/initramfs install
@@ -127,8 +128,8 @@ cp -r vim/* boot-files/initramfs/
 
 cp internals/netconf boot-files/initramfs/bin/netconf
 chmod +x boot-files/initramfs/bin/netconf
-
 cd boot-files/initramfs
+
 wget -O bin/pfetch https://raw.githubusercontent.com/dylanaraps/pfetch/master/pfetch
 chmod +x bin/pfetch
 
@@ -141,29 +142,9 @@ ln -s etc/init.d/rcS init
 chmod +x etc/init.d/rcS init
 
 rm linuxrc
-find . | cpio -o -H newc > ../init.cpio
-cd ..
+find . -print0 | cpio --null -ov --format=newc | gzip -9 > ../../iso/boot/initramfs.cpio.gz
+cd ../..
+cp internals/grub.cfg iso/boot/grub
+grub-mkrescue -o nate_os.iso iso/
 
-truncate -s 350M nate_os.img
-mkfs -t fat nate_os.img
-syslinux nate_os.img
-
-mkdir temp
-mount nate_os.img temp
-cp bzImage init.cpio temp
-cat <<EOF > temp/syslinux.cfg
-DEFAULT linux
-    SAY Booting up NateOS image drive...
-LABEL linux
-    KERNEL bzImage
-    INITRD init.cpio
-    APPEND loglevel=3 root=/dev/ram0 init=/init rw
-EOF
-umount temp
-rm -rf temp
-
-mv nate_os.img ..
-cd ..
-
-echo "Bootable image created successfully as nate_os.img"
-
+echo "Bootable live ISO image created successfully as nate_os.iso"
