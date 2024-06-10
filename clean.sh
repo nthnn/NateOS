@@ -3,7 +3,7 @@ rm -rf \
     bottom \
     broot \
     busybox \
-    chess-tui \
+    curl \
     eza \
     gcc-4.6.1-2 \
     hex \
@@ -16,6 +16,7 @@ rm -rf \
     py \
     vim \
     xplr \
+    curl.tar.xz \
     gcc-4.6.1-2.tar.xz \
     lynx.tar.xz \
     nate_os.img \
