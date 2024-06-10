@@ -24,7 +24,7 @@ echo "nateos" > /etc/hostname
 hostname $(cat /etc/hostname)
 clear
 
-cat /etc/nthnn.ascii
+echo -e $(cat /etc/nthnn.ascii) | cat
 echo "NateOS (version 0.0.1) [" $(uname -r) "]"
 echo
 
