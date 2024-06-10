@@ -32,13 +32,7 @@ To get started in Ubuntu, follow the steps below.
     cd NateOS
     ```
 
-2. **Switch to `sudo` Mode**: Switch to `sudo` mode to ensure you have the necessary permissions for installation.
-
-    ```bash
-    sudo su
-    ```
-
-3. **Install `rustup`**: Install `rustup` to manage the Rust toolchain. Follow the instructions provided [here](https://www.rust-lang.org/tools/install). Then add the Linux MUSL target for Rust compiler.
+2. **Install `rustup`**: Install `rustup` to manage the Rust toolchain. Follow the instructions provided [here](https://www.rust-lang.org/tools/install). Then add the Linux MUSL target for Rust compiler.
 
     ```bash
     # Default installation for `rustup`
@@ -48,6 +42,12 @@ To get started in Ubuntu, follow the steps below.
     rustup target add x86_64-unknown-linux-musl
     ```
 
+3. **Switch to `sudo` Mode**: Switch to `sudo` mode to ensure you have the necessary permissions for installation.
+
+    ```bash
+    sudo su
+    ```
+
 4. **Build NateOS**: Run the build script to compile all necessary binaries, including the Linux kernel and BusyBox. Execute the following command:
 
     ```bash
@@ -55,7 +55,7 @@ To get started in Ubuntu, follow the steps below.
     ./build.sh
     ```
 
-    This will generate `nate_os.img` in the current working directory upon successful execution.
+    This will generate `nate_os.iso` in the current working directory upon successful execution.
 
 ### Emulating with QEMU
 
