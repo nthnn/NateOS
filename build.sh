@@ -53,15 +53,6 @@ mkdir -p ../boot-files/initramfs
 make CONFIG_PREFIX=../boot-files/initramfs install
 cd ..
 
-if [ ! -d "eza" ]; then
-    git clone --depth 1 https://github.com/eza-community/eza.git
-fi
-
-cd eza
-cargo build --target=x86_64-unknown-linux-musl --release
-cp ./target/x86_64-unknown-linux-musl/release/eza ../boot-files/initramfs/bin
-cd ..
-
 if [ ! -d "broot" ]; then
     git clone --depth 1 https://github.com/Canop/broot.git
 fi
@@ -124,14 +115,6 @@ if [ ! -d "opt-nodejs-0.8.18-1" ]; then
 fi
 cp -r opt-nodejs-0.8.18-1/* boot-files/initramfs/
 chmod +x boot-files/initramfs/opt/nodejs/bin/*
-
-if [ ! -d "vim" ]; then
-    ./minos-static/static-get -c
-    ./minos-static/static-get -v -x vim
-fi
-rm vim/bin/vi
-chmod +x vim/bin/*
-cp -r vim/* boot-files/initramfs/
 
 cp internals/netconf boot-files/initramfs/bin/netconf
 chmod +x boot-files/initramfs/bin/netconf

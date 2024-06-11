@@ -4,7 +4,6 @@ rm -rf \
     broot \
     busybox \
     curl \
-    eza \
     gcc-4.6.1-2 \
     hex \
     iso \
@@ -23,4 +22,3 @@ rm -rf \
     nate_os.iso \
     opt-nodejs-0.8.18-1.tar.xz \
     python3.2-static-raw.githubusercontent.com.tar.xz \
-    vim.tar.xz \
