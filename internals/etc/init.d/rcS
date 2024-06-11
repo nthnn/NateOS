@@ -10,6 +10,9 @@ mount -t tmpfs none /tmp
 mkdir -p /var/run /var/log /var/tmp
 mkdir -p /etc/network /etc/ssh
 
+mknod /dev/random c 1 8
+mknod /dev/urandom c 1 9
+
 ln -sf /usr/share/zoneinfo/Asia/Manila /etc/localtime
 export PATH=$PATH:/usr/libexec/gcc/i586-linux-uclibc/4.6.1:/opt/nodejs/bin
 export PS1='[\[\e[1;33m\]\u@\h\[\e[0m\]] (\[\e[1;36m\]$(date "+%T")\[\e[0m\]) \[\e[1;34m\]\w\[\e[0m\]\[\e[1;32m\]\$\[\e[0m\] '
