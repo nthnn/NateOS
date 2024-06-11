@@ -13,6 +13,7 @@ The NateOS distro includes the following programs and packages:
 - [hex](https://github.com/sitkevij/hex) - Futuristic take on hexdump.
 - [loc](https://github.com/cgag/loc) - Count lines of code quickly.
 - [NodeJS 0.8.18-1](https://nodejs.org/en) - A cross-platform, open-source JavaScript runtime environment that can run on Windows, Linux, Unix, macOS, and more.
+- [OpenSSL](https://github.com/openssl/openssl) - OpenSSL is a robust, commercial-grade, full-featured Open Source Toolkit for the TLS (formerly SSL), DTLS and QUIC (currently client side only) protocols.
 - [pfetch](https://github.com/dylanaraps/pfetch) - A pretty system information tool written in POSIX sh.
 - [Python3.2](https://www.python.org/) - Python is a high-level, dynamic, general-purpose programming language.
 
