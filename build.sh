@@ -116,6 +116,13 @@ fi
 cp -r opt-nodejs-0.8.18-1/* boot-files/initramfs/
 chmod +x boot-files/initramfs/opt/nodejs/bin/*
 
+if [ ! -d "openssl-1.0.1t-1" ]; then
+    ./minos-static/static-get -c
+    ./minos-static/static-get -v -x openssl-1.0.1t-1
+fi
+chmod +x openssl-1.0.1t-1/usr/bin/openssl
+cp -r openssl-1.0.1t-1/* boot-files/initramfs/
+
 cp internals/netconf boot-files/initramfs/bin/netconf
 chmod +x boot-files/initramfs/bin/netconf
 cd boot-files/initramfs
