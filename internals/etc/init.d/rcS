@@ -20,6 +20,8 @@ echo "iface eth0 inet dhcp" >> /etc/network/interfaces
 echo "nameserver 8.8.8.8" > /etc/resolv.conf
 echo "nameserver 8.8.4.4" >> /etc/resolv.conf
 
+dmesg -n 3
+
 echo "nateos" > /etc/hostname
 hostname $(cat /etc/hostname)
 clear
