@@ -1,3 +1,7 @@
+#!/bin/sh
+# Copyright 2024 (c) Nathanne Isip
+# NateOS (https://github.com/nthnn/NateOS)
+
 rm -rf \
     boot-files \
     bottom \

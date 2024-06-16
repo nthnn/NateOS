@@ -1,4 +1,7 @@
- #!/bin/sh
+#!/bin/sh
+# Copyright 2024 (c) Nathanne Isip
+# NateOS (https://github.com/nthnn/NateOS)
+
 apt install        \
     bzip2          \
     git            \
